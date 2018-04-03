@@ -7,7 +7,7 @@ import { NavLink, Switch, Route } from 'react-router-dom';
 
     const App = () => (
       <div className='app'>
-        <h1>React Router Demo</h1>
+        <h1>Gif Speak</h1>
         <Navigation />
         <Main />
       </div>
@@ -16,7 +16,7 @@ import { NavLink, Switch, Route } from 'react-router-dom';
     const Navigation = () => (
       <nav>
         <ul>
-          <li><NavLink to='/'>Home</NavLink></li>
+          <li><NavLink to='/'>Gif Speak</NavLink></li>
           <li><NavLink to='/about'>About</NavLink></li>
           <li><NavLink to='/contact'>Contact</NavLink></li>
         </ul>

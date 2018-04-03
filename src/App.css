@@ -1,6 +1,11 @@
 html {
   box-sizing: border-box;
+  background: black;
 }
+a-scene {
+  height: 612px;
+  width: 700px;
+  }
 
 *, *::before, *::after {
   box-sizing: inherit;
@@ -8,16 +13,40 @@ html {
   margin: 0;
 }
 
+.personName {
+  color: chartreuse;
+}
+
+/* .aframe_wrapper {
+  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+} */
+
+
+.gif_wrapper {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 1fr;
+  /* grid-auto-rows: 240px; */
+  grid-gap: 2em;
+}
+
+
+
 .app {
+  color: rgba(50, 205, 50, 0.798);
   width: 960px;
   margin: 0 auto;
   padding: 20px;
+  background: rgba(102, 51, 153, 0.618);
 }
 
 nav ul {
+
   list-style: none;
   display: flex;
-  background-color: black;
+  background-color: rgba(255, 106, 0, 0.472);
   margin-bottom: 20px;
 }
 
@@ -26,7 +55,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: white;
+  color: limegreen;
   text-decoration: none;
 }
 
