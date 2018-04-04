@@ -26,16 +26,48 @@ a-scene {
 
 
 .gif_wrapper {
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr 1fr;
-  /* grid-auto-rows: 240px; */
-  grid-gap: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.SpeechToText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.SpeechToText {
+  align-self: center;
+  border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    padding: 25px 80px;
+    display: inline-block;
+    margin: 15px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    border: 3px solid #fff;
+    color: #fff;
+    overflow: hidden;
+
 }
 
 
 
 .app {
-  color: rgba(50, 205, 50, 0.798);
+  color: rgba(224, 54, 224, 0.798);
   width: 960px;
   margin: 0 auto;
   padding: 20px;
@@ -43,11 +75,11 @@ a-scene {
 }
 
 nav ul {
-
   list-style: none;
   display: flex;
-  background-color: rgba(255, 106, 0, 0.472);
+  background-color: rgba(212, 255, 0, 0.896);
   margin-bottom: 20px;
+  font-size: 20px;
 }
 
 nav ul li {

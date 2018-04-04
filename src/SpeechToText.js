@@ -35,11 +35,13 @@ class SpeechToText extends Component {
   }
   render() {
     return (
-      <div className="SpeechToText">
-        <button onClick={this.onListenClick.bind(this)}>Speech To Gif</button>
+      <div>
         <div style={{fontSize: '30px'}}>{this.state.text}</div>
+      <div className="SpeechToText">
+        <div onClick={this.onListenClick.bind(this)}>Press to Start</div>
+        </div>
         <GifImages phrase={this.state.text}/>
-      </div>
+        </div>
     );
   }
 }

@@ -8,6 +8,7 @@ class GifImages extends React.Component {
       super(props);
       this.state = {
         error: null,
+        isWaiting: true,
         isLoaded: false,
         Gifs: {},
         phrase:''
@@ -20,6 +21,7 @@ class GifImages extends React.Component {
         .then(res =>  {
             this.setState({
               isLoaded: true,
+              isWaiting: false,
               Gifs: res.data,
               phrase: this.props.phrase
             })
@@ -34,12 +36,14 @@ class GifImages extends React.Component {
     }
   }
     render() {
-      const { error, isLoaded, Gifs } = this.state;
+      const { error, isLoaded, Gifs, isWaiting } = this.state;
       if (error) {
         return <div>Error: {error.message}</div>;
+      } else if (isWaiting) {
+        return <div>Waiting...</div>;
       } else if (!isLoaded) {
         return <div>Loading...</div>;
-      } else {
+      }
         return (
           <div className='gif_wrapper'>
           {
@@ -51,5 +55,4 @@ class GifImages extends React.Component {
         );
       }
     }
-  }
   export default GifImages;
