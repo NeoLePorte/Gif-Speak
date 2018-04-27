@@ -35,7 +35,7 @@ class SpeechToText extends Component {
   }
   render() {
     return (
-      <div>
+      <div className='test'>
         <div style={{fontSize: '30px'}}>{this.state.text}</div>
       <div className="SpeechToText">
         <div onClick={this.onListenClick.bind(this)}>Press to Start</div>

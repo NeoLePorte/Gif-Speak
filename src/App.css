@@ -17,6 +17,10 @@ a-scene {
   color: chartreuse;
 }
 
+.waiting {
+  color: red;
+}
+
 /* .aframe_wrapper {
   padding-top: 40px;
   display: flex;
@@ -24,12 +28,15 @@ a-scene {
   align-self: center;
 } */
 
-
+.test{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: ivory;
+}
 .gif_wrapper {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-content: center;
 }
 
 .SpeechToText {
@@ -64,6 +71,16 @@ a-scene {
 
 }
 
+.instructions {
+  margin: 1em;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.about {
+  color: ivory;
+}
+
 
 
 .app {
@@ -87,7 +104,7 @@ nav ul li {
 }
 
 nav ul li a {
-  color: limegreen;
+  color: ivory;
   text-decoration: none;
 }
 

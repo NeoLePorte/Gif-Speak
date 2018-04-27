@@ -40,7 +40,7 @@ class GifImages extends React.Component {
       if (error) {
         return <div>Error: {error.message}</div>;
       } else if (isWaiting) {
-        return <div>Waiting...</div>;
+        return <div className='waiting'>Waiting...</div>;
       } else if (!isLoaded) {
         return <div>Loading...</div>;
       }
