@@ -10,8 +10,10 @@ class SpeechToText extends Component {
     this.state = {}
   }
   onListenClick() {
+    console.log('This is working');
     fetch('http://localhost:3002/api/speech-to-text/token')
       .then(function(response) {
+        console.log(['stillworking']);
           return response.text();
       }).then((token) => {
         var stream = recognizeMic({

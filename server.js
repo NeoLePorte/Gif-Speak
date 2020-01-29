@@ -1,65 +1,71 @@
+
+/**
+ * Copyright 2015 IBM Corp. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 'use strict';
-
-/* eslint-env node, es6 */
-
+require('dotenv').config({ silent: true });
 const express = require('express');
 const app = express();
-const watson = require('watson-developer-cloud');
-const vcapServices = require('vcap_services');
-const cors = require('cors');
+const { IamTokenManager } = require('ibm-watson/auth');
 const Config = require('./Config.js');
-// on bluemix, enable rate-limiting and force https
-if (process.env.VCAP_SERVICES) {
-  // enable rate-limiting
-  const RateLimit = require('express-rate-limit');
-  app.enable('trust proxy'); // required to work properly behind Bluemix's reverse proxy
+const cors = require('cors');
+app.use(cors);
+// allows environment properties to be set in a file named .env
 
-  const limiter = new RateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    delayMs: 0 // disable delaying - full speed until the max limit is reached
-  });
 
-  //  apply to /api/*
-  app.use('/api/', limiter);
-
-  // force https - microphone access requires https in Chrome and possibly other browsers
-  // (*.mybluemix.net domains all have built-in https support)
-  const secure = require('express-secure-only');
-  app.use(secure());
+if (!Config.SPEECH_TO_TEXT_IAM_APIKEY) {
+  console.error('Missing required credentials - see https://github.com/watson-developer-cloud/node-sdk#getting-the-service-credentials', Config.SPEECH_TO_TEXT_IAM_APIKEY);
+  process.exit(1);
 }
 
-app.use(express.static(__dirname + '/static'));
-app.use(cors())
+// enable rate-limiting
+const RateLimit = require('express-rate-limit');
+app.enable('trust proxy'); // required to work properly behind Bluemix's reverse proxy
 
-// token endpoints
-// **Warning**: these endpoints should probably be guarded with additional authentication & authorization for production use
+const limiter = new RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+
+//  apply to /api/*
+app.use('/api/', limiter);
+
+// force https - microphone access requires https in Chrome and possibly other browsers
+// (*.mybluemix.net domains all have built-in https support)
+
+const secure = require('express-secure-only');
+app.use(secure());
+app.use(express.static(__dirname + '/static'));
+
+
+const sttAuthenticator = new IamTokenManager({
+  apikey: Config.SPEECH_TO_TEXT_IAM_APIKEY
+});
+
 
 // speech to text token endpoint
-var sttAuthService = new watson.AuthorizationV1(
-  Object.assign(
-    {
-      username: Config.USER_NAME, // or hard-code credentials here
-      password: Config.PASSWORD
-    },
-    vcapServices.getCredentials('speech_to_text') // pulls credentials from environment in bluemix, otherwise returns {}
-  )
-);
 app.use('/api/speech-to-text/token', function(req, res) {
-  sttAuthService.getToken(
-    {
-      url: watson.SpeechToTextV1.URL
-    },
-    function(err, token) {
-      if (err) {
-        console.log('Error retrieving token: ', err);
-        res.status(500).send('Error retrieving token');
-        return;
-      }
-      res.send(token);
-    }
-  );
+  return sttAuthenticator
+    .requestToken()
+    .then(({ result }) => {
+      res.json({ accessToken: result.access_token, url: Config.SPEECH_TO_TEXT_URL });
+    })
+    .catch(console.error);
 });
+
 
 const port = process.env.PORT || process.env.VCAP_APP_PORT || 3002;
 app.listen(port, function() {

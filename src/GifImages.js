@@ -25,6 +25,7 @@ class GifImages extends React.Component {
               Gifs: res.data,
               phrase: this.props.phrase
             })
+            console.log(this.state.phrase);
           },
           (error) => {
             this.setState({
